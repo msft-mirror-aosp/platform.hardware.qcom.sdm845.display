@@ -19,16 +19,28 @@ LOCAL_CLANG                   := true
 LOCAL_SHARED_LIBRARIES        := libsdmcore libqservice libbinder libhardware libhardware_legacy \
                                  libutils libcutils libsync libqdutils libqdMetaData \
                                  libsdmutils libc++ liblog libgrallocutils libui libgpu_tonemapper \
-                                 libhidlbase libhidltransport vendor.display.config@1.0 \
+                                 libhidlbase vendor.display.config@1.0 \
                                  android.hardware.graphics.mapper@2.0 \
                                  android.hardware.graphics.mapper@2.1 \
                                  android.hardware.graphics.composer@2.2 \
+                                 android.hardware.graphics.composer@2.3 \
                                  android.hardware.graphics.allocator@2.0 \
                                  libdisplaydebug \
-                                 hardware.google.light@1.0
+                                 hardware.google.light@1.0 \
+                                 libdrm.vendor \
+
+LOCAL_STATIC_LIBRARIES        := libhistogram
 
 ifeq ($(display_config_version), DISPLAY_CONFIG_1_1)
 LOCAL_SHARED_LIBRARIES        += vendor.display.config@1.1
+endif
+ifeq ($(display_config_version), DISPLAY_CONFIG_1_2)
+LOCAL_SHARED_LIBRARIES        += vendor.display.config@1.2 vendor.display.config@1.1
+endif
+ifeq ($(display_config_version), DISPLAY_CONFIG_1_3)
+LOCAL_SHARED_LIBRARIES        += vendor.display.config@1.1
+LOCAL_SHARED_LIBRARIES        += vendor.display.config@1.2
+LOCAL_SHARED_LIBRARIES        += vendor.display.config@1.3
 endif
 
 # Allow implicit fallthroughs in hwc_display.cpp until they are fixed.
